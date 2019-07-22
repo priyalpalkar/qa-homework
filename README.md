@@ -29,3 +29,9 @@ To run API and UI Tests
 ```
 $ docker exec test_runner pytest test
 ```
+
+After completion
+
+```
+$ docker-compose down
+```
