@@ -12,5 +12,5 @@ class LoginPage(BasePage):
     def login(self, *args, **kwargs):
         self.send_keys(self.find_element(self._username), "priyal.palkar@gmail.com")
         self.click(self._next_step)
-        self.send_keys(self.find_element(self._password), "Dodo@420")
+        self.send_keys(self.find_element(self._password), "Welcome!")
         self.click(self._submit)

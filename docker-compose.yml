@@ -16,3 +16,6 @@ services:
     container_name: test_runner
     volumes:
       - ./test:/test
+      - ./upload:/upload
+    environment:
+      - API_TOKEN=680ab152595077377dae0a980b327ed7791c137b

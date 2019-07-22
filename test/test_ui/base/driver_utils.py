@@ -2,6 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
+from selenium.common.exceptions import TimeoutException
+
 
 class DriverUtils(object):
 
@@ -20,18 +23,22 @@ class DriverUtils(object):
     def driver_wait_for_ajax(self, *args):
         return self.execute_script("return jQuery.active")
 
-    def find_element(self, selector, type="CSS_SELECTOR", wait_for_ajax=True):
+    def find_element(self, selector, type="CSS_SELECTOR", wait_for_ajax=True, raise_exception=True, timeout=_chrome_js_timeout):
         if wait_for_ajax:
             self.wait_until(self.driver_wait_for_ajax, self._chrome_ajax_timeout)
         element = None
-        element = self.wait_until(EC.presence_of_element_located((self._by_type(type), selector)), self._chrome_js_timeout)
+        try:
+            element = self.wait_until(EC.presence_of_element_located((self._by_type(type), selector)), timeout)
+        except TimeoutException:
+            if raise_exception:
+                raise
         return element
 
-    def wait_for_element_invisibility(self, selector, type="CSS_SELECTOR", wait_for_ajax=True):
+    def wait_for_element_invisibility(self, selector, type="CSS_SELECTOR", wait_for_ajax=True, timeout=_chrome_js_timeout):
         if wait_for_ajax:
             self.wait_until(self.driver_wait_for_ajax, self._chrome_ajax_timeout)
         element = None
-        element = self.wait_until(EC.invisibility_of_element_located((self._by_type(type), selector)), self._chrome_js_timeout)
+        element = self.wait_until(EC.invisibility_of_element_located((self._by_type(type), selector)), timeout=timeout)
         return element
 
     def click(self, selector, type="CSS_SELECTOR", wait_for_ajax=True):
@@ -42,7 +49,6 @@ class DriverUtils(object):
         return True
 
     def wait_until(self, condition, timeout=10, error_message="Timeout!"):
-
         element = WebDriverWait(self.driver, timeout).until(condition, error_message)
         return element
 
