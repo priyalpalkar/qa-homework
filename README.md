@@ -9,7 +9,7 @@ Run all required containers
 $ docker-compose up -d
 ```
 
-To run UI Tests
+To run UI Tests (VNC only required to view the browser)
 
 - Install VNC viewer: https://www.realvnc.com/en/connect/download/viewer/
 - Start VNC viewer at localhost:5900 (password: secret)
